@@ -1,13 +1,14 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charSet="UTF-8"/><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><link rel="apple-touch-icon" sizes="180x180" href="../ydoc/images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="../ydoc/images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="../ydoc/images/favicon-16x16.png"/><link rel="manifest" href="../ydoc/images/manifest.json"/><link rel="mask-icon" href="../ydoc/images/safari-pinned-tab.svg" color="#5bbad5"/><meta name="theme-color" content="#ffffff"/><meta http-equiv="Cache-Control" content="no-transform"/><meta http-equiv="Cache-Control" content="no-siteapp"/><title>基本概念一组建议值对应在 sdk 中的配置推流SDK关键日志水印能否传入SD卡的图片Android 推流 sdk 是否支持 GPUImage ?关于滤镜的问题Android 推流如何设置全屏 ？Android 推流是否支持动态分辨率切换？回声消除这块，你们有解决方案吗SDK 在哪里下载 ？Android 6.0 无法打开摄像头为什么我们的Android推流视频分辨率是1088，而不是1080 ？直播马赛克镜像mirror推流端添加水印清晰度不够录屏推流信息状态获取延迟／先预览(修改推流地址)，之后推流Android推流对焦里面FOCUS_MODE_AUTO的理解直播SDK 视频帧率为什么有时候会很低 ？Android推流过程中报errorcode:-1006直接关闭推流？Android 部分机型推流，屏幕显示灰暗，播放端也是灰暗效果Android获取手机的型号和系统版本Android 推流 type 理解Android 推流SDK检查摄像头和录音权限问题解决方案Android 开启美颜功能说明异常断流和正常断流，客户端处理方式推流 SDK 功耗优化好的画质是分辨率、帧率和码率三者之间的平衡：Android 推流失败原因总结导出ANR文件的命令android 抓取log 的方法：-Android</title><link rel="stylesheet" href="../ydoc/styles/style.css"/><meta name="author" content="Jemy Cheung"/><meta name="keywords"/><meta name="description" content="Introduce how to use Qiniu SDK"/><meta id="releativePath" content=".."/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/></head><body><div class="g-doc"><div class="m-aside"><div class="m-summary" id="js-menu"><div class="m-summary-content" id="js-menu-content"><div class="m-summary-block"><div class="m-summary-title">FAQ</div><ul class="m-summary-list indent"><li class="item"><a href="player.html" class="href">播放器</a></li><li class="item"><a href="" class="href">直播</a></li><li class="item"><a href="shortvideo.html" class="href">短视频</a></li></ul></div></div></div><div class="m-summary-switch" id="js-summary-switch"><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="bottom"><g transform="translate(904.92214,-879.1482)"><path d="m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,-55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,-174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,-174.68583 0.6895,0 26.281,25.03215 56.8701,55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864-231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,-104.0616 -231.873,-231.248 z" fill="#fff"></path></g></svg><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="top"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="aaa" fill="#fff" fill-rule="nonzero"><path d="M231.2455,342.502 L0,111.25397 L55.6165,55.62697 C86.2056,25.03212 111.7971,-2.99999998e-05 112.4866,-2.99999998e-05 C113.176,-2.99999998e-05 192.3503,78.60859 288.4293,174.6858 L463.1185,349.3716 L637.8077,174.6858 C733.8867,78.60859 813.060896,-2.99999997e-05 813.750396,-2.99999997e-05 C814.439896,-2.99999997e-05 840.031396,25.03212 870.620496,55.62697 L926.236996,111.25397 L694.9915,342.502 C567.8065,469.6884 463.4636,573.75 463.1185,573.75 C462.7734,573.75 358.4305,469.6884 231.2455,342.502 Z" id="Shape" transform="translate(463.118498, 286.874985) scale(1, -1) translate(-463.118498, -286.874985) "></path></g></g></svg></div></div><div class="m-main" id="js-panel"><header class="m-header" id="js-header"><div class="m-header-title js-logo"><a href="../index.html" target="_self"><img class="logo" width="36" src="https://developer.qiniu.com/favicon.ico"/><h6 class="name">Qiniu</h6></a></div><div><div class="m-search">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charSet="UTF-8"/><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><link rel="apple-touch-icon" sizes="180x180" href="../ydoc/images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="../ydoc/images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="../ydoc/images/favicon-16x16.png"/><link rel="manifest" href="../ydoc/images/manifest.json"/><link rel="mask-icon" href="../ydoc/images/safari-pinned-tab.svg" color="#5bbad5"/><meta name="theme-color" content="#ffffff"/><meta http-equiv="Cache-Control" content="no-transform"/><meta http-equiv="Cache-Control" content="no-siteapp"/><title>直播-Android</title><link rel="stylesheet" href="../ydoc/styles/style.css"/><meta name="author" content="Jemy Cheung"/><meta name="keywords"/><meta name="description" content="Introduce how to use Qiniu SDK"/><meta id="releativePath" content=".."/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/></head><body><div class="g-doc"><div class="m-aside"><div class="m-summary" id="js-menu"><div class="m-summary-content" id="js-menu-content"><div class="m-summary-block"><ul class="m-summary-list"><li class="item"><a href="player.html" class="href">播放器</a></li><li class="item"><a href="" class="href">直播</a></li><li class="item"><a href="shortvideo.html" class="href">短视频</a></li></ul></div></div></div><div class="m-summary-switch" id="js-summary-switch"><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="bottom"><g transform="translate(904.92214,-879.1482)"><path d="m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,-55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,-174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,-174.68583 0.6895,0 26.281,25.03215 56.8701,55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864-231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,-104.0616 -231.873,-231.248 z" fill="#fff"></path></g></svg><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="top"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="aaa" fill="#fff" fill-rule="nonzero"><path d="M231.2455,342.502 L0,111.25397 L55.6165,55.62697 C86.2056,25.03212 111.7971,-2.99999998e-05 112.4866,-2.99999998e-05 C113.176,-2.99999998e-05 192.3503,78.60859 288.4293,174.6858 L463.1185,349.3716 L637.8077,174.6858 C733.8867,78.60859 813.060896,-2.99999997e-05 813.750396,-2.99999997e-05 C814.439896,-2.99999997e-05 840.031396,25.03212 870.620496,55.62697 L926.236996,111.25397 L694.9915,342.502 C567.8065,469.6884 463.4636,573.75 463.1185,573.75 C462.7734,573.75 358.4305,469.6884 231.2455,342.502 Z" id="Shape" transform="translate(463.118498, 286.874985) scale(1, -1) translate(-463.118498, -286.874985) "></path></g></g></svg></div></div><div class="m-main" id="js-panel"><header class="m-header" id="js-header"><div class="m-header-title js-logo"><a href="../index.html" target="_self"><img class="logo" width="36" src="https://developer.qiniu.com/favicon.ico"/><h6 class="name">Qiniu</h6></a></div><div><div class="m-search">
       <div class="icon">&#xf0fd;</div>
       <input type="text" class="input js-input" placeholder="搜索" />
       <div class="m-search-result js-search-result"></div>
-    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item active"><a class="href" href="android.html">Android</a></li><li class="item "><a class="href" href="../ios/ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><p><a href="https://github.com/pili-engineering/PLDroidMediaStreaming">]安卓推流SDK</a></p>
-<h1>基本概念</h1>
-<p>关于 分辨率、帧率、码率 等编码基本概念可以参考以下文档</p>
-<p><a href="http://www.lighterra.com/papers/videoencodingh264/" target="_blank">H.264 一般规范</a></p>
-<p><a href="https://developer.qiniu.com/pili/kb/3636/streaming-VideoProfile" target="_blank">分辨率、帧率、码率的相互关系</a></p>
-<h1>一组建议值</h1>
+    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item active"><a class="href" href="android.html">Android</a></li><li class="item "><a class="href" href="../ios/ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><p><a href="https://github.com/pili-engineering/PLDroidMediaStreaming" target="_blank">安卓推流SDK</a></p>
+<h1>直播</h1>
+<h2 id="基本概念">基本概念</h2>
+<p>关于 分辨率、帧率、码率 等编码基本概念可以参考以下文档
+<a href="http://www.lighterra.com/papers/videoencodingh264/" target="_blank">H.264 一般规范</a>
+<a href="https://developer.qiniu.com/pili/kb/3636/streaming-VideoProfile" target="_blank">分辨率、帧率、码率的相互关系</a></p>
+<h2 id="一组建议值">一组建议值</h2>
 <p>关于分档的【标清、高清、超清】，目前并不是通用标准，多数视频站点使用各自的标准，一般只是作为区分的不同视频质量的标识。</p>
 <table>
 <thead>
@@ -39,8 +40,7 @@
 </tr>
 </tbody>
 </table>
-<h1>对应在 sdk 中的配置</h1>
-<h5>android</h5>
+<h2 id="对应在-sdk-中的配置">对应在 sdk 中的配置</h2>
 <pre><code class="language-java"><span class="token comment">// 标清</span>
 <span class="token class-name">StreamingProfile</span><span class="token punctuation">.</span><span class="token class-name">AudioProfileaProfile</span><span class="token operator">=</span>newStreamingProfile<span class="token punctuation">.</span><span class="token class-name">AudioProfile</span><span class="token punctuation">(</span><span class="token number">44100</span><span class="token punctuation">,</span><span class="token number">48</span><span class="token operator">*</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token class-name">StreamingProfile</span><span class="token punctuation">.</span><span class="token class-name">VideoProfilevProfile</span><span class="token operator">=</span>newStreamingProfile<span class="token punctuation">.</span><span class="token class-name">VideoProfile</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span><span class="token number">800</span><span class="token operator">*</span><span class="token number">1024</span><span class="token punctuation">,</span><span class="token number">15</span><span class="token punctuation">,</span><span class="token class-name">StreamingProfile</span><span class="token punctuation">.</span><span class="token class-name">H264Profile</span><span class="token punctuation">.</span>BASELINE<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -62,39 +62,39 @@ mProfile<span class="token punctuation">.</span><span class="token function">set
 mProfile<span class="token punctuation">.</span><span class="token function">setPreferredVideoEncodingSize</span><span class="token punctuation">(</span><span class="token number">720</span><span class="token punctuation">,</span><span class="token number">1280</span><span class="token punctuation">)</span>
 				<span class="token punctuation">.</span><span class="token function">setAVProfile</span><span class="token punctuation">(</span>avProfile<span class="token punctuation">)</span>
 </code></pre>
-<h1>推流SDK关键日志</h1>
-<h2 id="提供-android-的日志">提供 Android 的日志</h2>
+<h2 id="推流sdk关键日志">推流SDK关键日志</h2>
+<h3 id="推流sdk关键日志-提供-android-的日志">提供 Android 的日志</h3>
 <p>$ adb logcat -v threadtime &gt; log.txt</p>
-<h3 id="提供-android-的日志-打开最高的日志级别">打开最高的日志级别</h3>
+<h3 id="推流sdk关键日志-打开最高的日志级别">打开最高的日志级别</h3>
 <p>StreamingEnv.setLogLevel(Log.VERBOSE)</p>
-<h3 id="提供-android-的日志-如何过滤推流-sdk-输出的日志">如何过滤推流 SDK 输出的日志</h3>
+<h3 id="推流sdk关键日志-如何过滤推流-sdk-输出的日志">如何过滤推流 SDK 输出的日志</h3>
 <p>$ adb logcat -v threadtime -s PLDroidMediaStreaming</p>
-<h3 id="提供-android-的日志-如何查看客户的调用姿势">如何查看客户的调用姿势</h3>
+<h3 id="推流sdk关键日志-如何查看客户的调用姿势">如何查看客户的调用姿势</h3>
 <p>$ adb logcat -v threadtime | grep Pili-Interface</p>
-<h3 id="提供-android-的日志-如何查看客户的系统和版本信息">如何查看客户的系统和版本信息</h3>
+<h3 id="推流sdk关键日志-如何查看客户的系统和版本信息">如何查看客户的系统和版本信息</h3>
 <p>$ adb logcat -s PLDroidMediaStreaming | grep Pili-System</p>
-<h3 id="提供-android-的日志-如何查看客户的推流参数配置">如何查看客户的推流参数配置</h3>
+<h3 id="推流sdk关键日志-如何查看客户的推流参数配置">如何查看客户的推流参数配置</h3>
 <p>$ adb logcat -s PLDroidMediaStreaming | grep prepare</p>
-<h3 id="提供-android-的日志-如何查看用户实际使用的-camera-预览分辨率">如何查看用户实际使用的 Camera 预览分辨率</h3>
+<h3 id="推流sdk关键日志-如何查看用户实际使用的-camera-预览分辨率">如何查看用户实际使用的 Camera 预览分辨率</h3>
 <p>$ adb logcat -s PLDroidMediaStreaming | grep &quot;setCameraPreviewSize&quot;</p>
 <p>public WatermarkSetting(Context ctx, String absoluteResPath, WATERMARK_LOCATION location, WATERMARK_SIZE size, int alpha) 有一个构造方法，第二个参数，传入图片的绝对路径就可以。</p>
-<h1>水印能否传入SD卡的图片</h1>
+<h2 id="水印能否传入sd卡的图片">水印能否传入SD卡的图片</h2>
 <p>不支持，但是把 GPUImage 的 shader 算法移植过来就行。</p>
-<h1>Android 推流 sdk 是否支持 GPUImage ?</h1>
+<h2 id="android-推流-sdk-是否支持-gpuimage-?">Android 推流 sdk 是否支持 GPUImage ?</h2>
 <p>建议看看我们的下面这篇关于滤镜的说明，写得很详细 https://github.com/pili-engineering/PLStreamingKit/wiki/7-高级功能#75-视频滤镜渲染 https://github.com/pili-engineering/PLDroidCameraStreaming/wiki/8-高级功能#Advanced-features</p>
-<h1>关于滤镜的问题</h1>
+<h2 id="关于滤镜的问题">关于滤镜的问题</h2>
 <p>配置一下 AspectFrameLayout 的 SHOW_MODE，设置为：SHOW_MODE.FULL</p>
-<h1>Android 推流如何设置全屏 ？</h1>
+<h2 id="android-推流如何设置全屏-？">Android 推流如何设置全屏 ？</h2>
 <p>不支持</p>
-<h1>Android 推流是否支持动态分辨率切换？</h1>
+<h2 id="android-推流是否支持动态分辨率切换？">Android 推流是否支持动态分辨率切换？</h2>
 <p>可以参考 http://androidxref.com/4.4_r1/xref/frameworks/opt/net/voip/src/jni/rtp/EchoSuppressor.cpp</p>
-<h1>回声消除这块，你们有解决方案吗</h1>
+<h2 id="回声消除这块，你们有解决方案吗">回声消除这块，你们有解决方案吗</h2>
 <p>安卓推流 SDK 的文档：https://github.com/pili-engineering/PLDroidMediaStreaming/wiki</p>
-<h1>SDK 在哪里下载 ？</h1>
+<h2 id="sdk-在哪里下载-？">SDK 在哪里下载 ？</h2>
 <p>6.0 需要增加权限处理代码，让用户确认下</p>
-<h1>Android 6.0 无法打开摄像头</h1>
+<h2 id="android-6.0-无法打开摄像头">Android 6.0 无法打开摄像头</h2>
 <p>1088的size性能比1080更好，另外可以避免一些手机硬编吗情况下花屏现象，1088 能够被16整除 H264是以16x16为块来做的，很多 android 厂商，只支持能被 16 整除的硬编</p>
-<h1>为什么我们的Android推流视频分辨率是1088，而不是1080 ？</h1>
+<h2 id="为什么我们的android推流视频分辨率是1088，而不是1080-？">为什么我们的Android推流视频分辨率是1088，而不是1080 ？</h2>
 <p>美颜是在 Preview 的时候其实就生效了，因为 Preview 就有美颜效果的 我问下CameraStreamingSetting配置里面的setCameraFacingId是干嘛的？跟setCameraId不一样么？就是设置当前的摄像头 ID，前置/后置那跟setCameraId这个方法有区别么？ ==&gt; 两个都是设置摄像头 id。 setCameraId 是老 api，为了支持多个 camera。 新增了 setCameraFacingId，参数类型不一样。 建议用新的 api 新api可以设置CAMERA_FACING_ID.CAMERA_FACING_3RD，这个是什么意思呢？ ==&gt; 后置副摄像头，即双摄像头的副摄像头</p>
 <h2 id="android-camera-id">android camera id</h2>
 <ul>
@@ -102,16 +102,16 @@ mProfile<span class="token punctuation">.</span><span class="token function">set
 <li>不开启自适应码率的话，会选择性丢帧 所以马赛克会由两方面因素导致，可能是 codec 层面；也可能是网络引起丢帧导致。</li>
 </ul>
 <p>1 分辨率、帧率、码率属于单机版对画质的影响（多媒体领域范畴）； 2 加上网络因素，就需要考虑（流媒体领域范畴）</p>
-<h1>直播马赛克</h1>
+<h2 id="直播马赛克">直播马赛克</h2>
 <p>setFrontCameraMirror(true) 的意思是， 让前置摄像头，自拍的方向和推流的方向是一致的</p>
 <ul>
 <li>前置摄像头，自拍的方向和推流的方向是反着的</li>
 <li>后置摄像头，自拍的方向和推流的方向是一样的
 默认的 Android Camera 的行为如下：</li>
 </ul>
-<h1>镜像mirror</h1>
+<h2 id="镜像mirror">镜像mirror</h2>
 <p>watermarksetting.setInJustDecodeBoundsEnabled(false) 可以解决</p>
-<h1>推流端添加水印清晰度不够</h1>
+<h2 id="推流端添加水印清晰度不够">推流端添加水印清晰度不够</h2>
 <p>@Override public boolean onTouch(View v, MotionEvent event) { return true;// 根据实际要求实现该方法，reture true 即为消耗事件 }</p>
 <p>cameraPreviewFrameView.setOnTouchListener(this);
 目前 SDK 还没提供屏蔽对焦框的方法，但是可以通过 View 事件拦截的方法达到效果</p>
@@ -133,30 +133,30 @@ mProfile<span class="token punctuation">.</span><span class="token function">set
 在普通推流（MediaStreamingManager）或者连麦推流（RTCMediaStreamingManager），都有 setStreamStatusCallback 方法，
 在录屏场景如何获得推流状态，如码率、帧率等</li>
 </ul>
-<h1>录屏推流信息状态获取</h1>
+<h2 id="录屏推流信息状态获取">录屏推流信息状态获取</h2>
 <p>部分客户可能会有先获取预览画面，再获取推流地址／等待一段时间，之后再进行推流的需求 case READY: // start streaming when READY view.postDelayed(new Runnable() { @Override public void run() { try { mProfile.setPublishUrl(&quot;rtmp://pili-publish.live.zhangrui.qiniuts.com/live-rui/flow-77&quot;); mMediaStreamingManager.setStreamingProfile(mProfile); } catch (URISyntaxException e) { e.printStackTrace(); } startStreaming(); } }, 6000); break;</p>
-<h1>延迟／先预览(修改推流地址)，之后推流</h1>
+<h2 id="延迟／先预览修改推流地址，之后推流">延迟／先预览(修改推流地址)，之后推流</h2>
 <p>区别在于，PICTURE 一般用于拍照，VIDEO 一般用于录制视频。 拍照的对焦算法会更灵敏，而 VIDEO 相对更柔和。 所以，PICTURE 模式下，稍稍动一下手机，一般都会触发对焦，功耗会更高；Video 触发对焦的条件更苛刻。</p>
 <p>FOCUS_MODE_AUTO 是手动点击对焦模式。 SDK 的设计是，在手动点击对焦之后，timeout 之后，会自动地切换为 CAF，即连续对焦模式 连续对焦模式： CameraStreamingSetting.FOCUS_MODE_CONTINUOUS_PICTURE CameraStreamingSetting.FOCUS_MODE_CONTINUOUS_VIDEO 这两种都是 CAF，一种是 PICTURE 另一种是 VIDEO</p>
-<h1>Android推流对焦里面FOCUS_MODE_AUTO的理解</h1>
+<h2 id="android推流对焦里面focus_mode_auto的理解">Android推流对焦里面FOCUS_MODE_AUTO的理解</h2>
 <p>数据源模块 － 环境黑暗，摄像头曝光时间较长，导致帧率低，但是一般比较平稳 － camera preview size 设置太高 － 网络太差，导致数据源处丢帧 处理模块 － 美颜等一些特效太多，导致 processing 时间过长，数据源 fps 较低 － 机器的 GPU 太烂，导致处理时间长 编码模块 － 设置的 fps 本身就比较低 － 客户设置的分辨率太高，codec 编码时间太长 网络模块 － 网络不好，推流端丢帧了，但是一般会比较波动 终端模块 － 机器性能低，导致各个阶段的 fps 都低 － 推流时间太长，手机发热较严重，导致 CPU 降频，fps 也会降低</p>
 <p>描述 需要从以下模块去逐步排查问题：</p>
-<h1>直播SDK 视频帧率为什么有时候会很低 ？</h1>
+<h2 id="直播sdk-视频帧率为什么有时候会很低-？">直播SDK 视频帧率为什么有时候会很低 ？</h2>
 <p>遇到这种报错信息，直接要求客户排查主播端网络状态，证明是主播网络不佳导致的断流的原因。 注：errorCode -1006 用户自己网络原因</p>
-<h1>Android推流过程中报errorcode:-1006直接关闭推流？</h1>
+<h2 id="android推流过程中报errorcode-1006直接关闭推流？">Android推流过程中报errorcode:-1006直接关闭推流？</h2>
 <p>乐视 1s 手机比较暗的问题，你们可以通过配置下面这行语句来解决，你们看看先试试效果： CameraStreamingSetting.setFocusMode(CameraStreamingSetting.FOCUS_MODE_CONTINUOUS_PICTURE)</p>
 <p>而3A算法主要指的是自动对焦(AF)、自动曝光(AE)及自动白平衡(AWB)。 自动白平衡:根据光源条件调整图片颜色的保真程度。 ==&gt;</p>
 <p>相机主要技术点为3A算法。</p>
 <p>概念解释：</p>
 <p>相机参数问题 具体原因需要深入分析。从现象来看，是特殊机型上面，本应该自动调整的参数，系统没有调整。 比如，我们现在设定了 fps 和 AF，理论上，AWB 和 AE 根据 Camera tuning 的算法应该在光线暗的环境得到相应地提升，来达到亮度的提升。 但是，从现象来看，部分机型没有提升。</p>
-<h1>Android 部分机型推流，屏幕显示灰暗，播放端也是灰暗效果</h1>
+<h2 id="android-部分机型推流，屏幕显示灰暗，播放端也是灰暗效果">Android 部分机型推流，屏幕显示灰暗，播放端也是灰暗效果</h2>
 <p>android.os.Build.MODEL 获取手机型号</p>
 <p>android.os.Build.VERSION.RELEASE获取版本号</p>
-<h1>Android获取手机的型号和系统版本</h1>
+<h2 id="android获取手机的型号和系统版本">Android获取手机的型号和系统版本</h2>
 <p>Android 系统，硬编有两种实现方式，一种是使用 Surface 的方式硬编， 一种是使用 YUV 数据直接硬编，走的不同的代码流程，对于外部导入 YUV 数据进行硬编推流的话，必须使用后者，内部采集推流，推荐前者</p>
 <p>HW_VIDEO_YUV_AS_INPUT_WITH_HW_AUDIO_CODEC</p>
 <p>HW_VIDEO_SURFACE_AS_INPUT_WITH_HW_AUDIO_CODEC,</p>
-<h1>Android 推流 type 理解</h1>
+<h2 id="android-推流-type-理解">Android 推流 type 理解</h2>
 <p>Setting – Manage apps – 进入安装的那个应用的App info – 查看 Permissions</p>
 <p>开启权限：</p>
 <p>检查权限 */ private void checkPermission() { if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) { // MPermissions.requestPermissions(this, 1, Manifest.permission.CAMERA); Toast.makeText(this, &quot;已被禁止获取摄像头权限,请在权限管理中重新设置&quot;, Toast.LENGTH_LONG).show(); }</p>
@@ -165,14 +165,14 @@ mProfile<span class="token punctuation">.</span><span class="token function">set
 // MPermissions.requestPermissions(this, 2, Manifest.permission.RECORD_AUDIO); Toast.makeText(this, &quot;已被禁止获取录音权限,请在权限管理中重新设置&quot;, Toast.LENGTH_LONG).show(); } }</p>
 <p>/**</p>
 <p>注意将 checkPermission 方法放在onCreate里面 推流初始化动作的前面</p>
-<h1>Android 推流SDK检查摄像头和录音权限问题解决方案</h1>
+<h2 id="android-推流sdk检查摄像头和录音权限问题解决方案">Android 推流SDK检查摄像头和录音权限问题解决方案</h2>
 <p>开启美颜功能必须的代码==&gt; CameraStreamingSetting cameraStreamingSetting = new CameraStreamingSetting(); .setBuiltInFaceBeautyEnabled(true) // Using sdk built in face beauty algorithm .setFaceBeautySetting(new CameraStreamingSetting.FaceBeautySetting(0.8f, 0.8f, 0.6f)) // sdk built in face beauty settings .setVideoFilter(CameraStreamingSetting.VIDEO_FILTER_TYPE.VIDEO_FILTER_BEAUTY); // set the beauty on/off MediaStreamingManager.setVideoFilterType(CameraStreamingSetting.VIDEO_FILTER_TYPE.VIDEO_FILTER_BEAUTY） 另外需要检查用户自己客制化的逻辑 初始化 resume</p>
-<h1>Android 开启美颜功能说明</h1>
+<h2 id="android-开启美颜功能说明">Android 开启美颜功能说明</h2>
 <p>忽略错误</p>
 <p>发现错误的时候，请求服务端，服务端调用 stream.status 方法看下流的status状态是否是disconnect（如果是disconnect就没有推流了）， 然后再响应给客户端，客户端展示主播已下线</p>
 <p>有流状态回调接口，流状态发生变化，都会回调你们业务服务器，你们业务服务器收到有断开的流（异常断流和正常断流都会回调）， 然后决定是否要推送一波断开的消息给客户端</p>
 <p>异常断流和正常断流我们都收到了，不好处理，你们也部分正常断流和异常断流，让我们怎么做处理？ 没有推流，sdk有没有抛出异常或则，我们怎么判断？ 三种方法：</p>
-<h1>异常断流和正常断流，客户端处理方式</h1>
+<h2 id="异常断流和正常断流，客户端处理方式">异常断流和正常断流，客户端处理方式</h2>
 <ul>
 <li>减少格式转换，例如：如果 libyuv 和 encoder 支持的输入格式是 i420，那么尽可能用 GPU 把回调的数据改为 i420</li>
 <li>编码自动适配，auto 模式自动选择硬编，失败自动切软编</li>
@@ -184,13 +184,13 @@ mProfile<span class="token punctuation">.</span><span class="token function">set
 <li>自适应算法，忽略用户配置的 Camera Preview size，而自动选择一个接近推流 size 的 Camera Preview size</li>
 <li>减少尺寸拉伸/剪裁，Camera Preview 的 size 尽可能靠近推流的 size</li>
 </ul>
-<h1>推流 SDK 功耗优化</h1>
+<h2 id="推流-sdk-功耗优化">推流 SDK 功耗优化</h2>
 <p>如果您之前没有太多音视频编码的实战经验，我们比较建议您使用demo里的设置参数。</p>
 <p>分辨率不盲目攀高 如果限定一个码率，比如800kbps，那么分辨率越高就会让编码器越 “为难&quot; ，可以想象，它必须拆东墙补西墙，通过减少色彩信息或者引入马赛克这种“鱼目混珠”的手段来承载足够多的像素点。 所以，同样的是2G的一个电影文件，1080p画质的版本可能不如720p画质的版本看起来更清晰。</p>
 <p>有些玩过3D游戏的朋友可能会说，游戏的帧率越高越流畅。 这里要注意一定不要混淆场景：游戏追求高帧率的目的是为了尽可能让3D模型渲染出来的运动效果更加接近真实运动轨迹，所以帧率越高越好。 但对摄像头而言，它要采集的目标是真实世界的物体，真实世界本来就没有刷新率的说法，所以这个理论不适用。</p>
 <p>帧率一般24-30 如果限定一个码率，比如800kbps，那么帧率越高，编码器就必须加大对单帧画面的压缩比，也就是通过降低画质来承载足够多的帧数。 如果视频源来自摄像头，24FPS已经是肉眼极限，所以一般20帧的FPS就已经可以达到很好的用户体验了。 并且七牛有控制帧率过高的接口： setFpsControllerEnable(true)</p>
 <p>码率不是越大越好 如果不做码率大小上的限制，那么分辨率越高，画质越细腻； 帧率越高，视频也越流畅，但相应的码率也会很大，因为每秒钟需要用更多的数据来承载较高的清晰度和流畅度。 这对云服务厂商而言这是好事（收入跟流量呈正比），但对您可能意味着更多的费用开支。</p>
-<h1>好的画质是分辨率、帧率和码率三者之间的平衡：</h1>
+<h2 id="好的画质是分辨率、帧率和码率三者之间的平衡：">好的画质是分辨率、帧率和码率三者之间的平衡：</h2>
 <p>帧率：FPS（每秒钟要多少帧画面）； 以及Gop（表示多少秒一个I帧） 码率：编码器每秒编出的数据大小，单位是kbps，比如800kbps代表编码器每秒产生800kb（或100KB）的数据。 分辨率：单位英寸中所包含的像素点数； VGA：Video Graphics Array（视频图像分辨率）</p>
 <p>分辨率、帧率和码率三者之间的关系</p>
 <ul>
@@ -200,39 +200,21 @@ mProfile<span class="token punctuation">.</span><span class="token function">set
 <li>已经处于推流状态，调用开始推流；</li>
 <li>推流startStreaming 调用需要在 StreamingState#READY 之后 并且需要在非UI线程中 ；</li>
 </ul>
-<h1>Android 推流失败原因总结</h1>
+<h2 id="android-推流失败原因总结">Android 推流失败原因总结</h2>
 <p>anr日志的存放目录：\data\anr\traces.txt adb pull \data\anr\traces.txt ./traces.txt 导出到当前目录下</p>
-<h1>导出ANR文件的命令</h1>
+<h2 id="导出anr文件的命令">导出ANR文件的命令</h2>
 <p>unix-like 系统： adb shell logcat -v time thread | tee ~/log.log win 系统： adb shell logcat -v time thread &gt; log.log 命令敲上之后，进行复现，复现完成之后，停止命令，然后把对应的 log.log 发过来。</p>
-<h1>android 抓取log 的方法：</h1>
+<h2 id="android-抓取log-的方法：">android 抓取log 的方法：</h2>
 <p>unix-like 系统： adb shell logcat -v time thread | tee ~/log.log win 系统： adb shell logcat -v time thread &gt; log.log 命令敲上之后，进行复现，复现完成之后，停止命令，然后把对应的 log.log 发过来。</p>
 </div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="player.html" class="href"><span class="ui-font-ydoc"></span>播放器</a></div><div class="m-paging-next m-paging-item"><a href="shortvideo.html" class="href">短视频<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div></div><script>
     var $content = document.getElementById('js-content');
     var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
     var $menu = document.getElementById('js-menu');
-    if (sessionStorage.prevPathname) {
-      sessionStorage.setItem('prevPrevPathname', sessionStorage.prevPathname);
-      sessionStorage.setItem('prevPrevMenuScrollTop', sessionStorage.prevMenuScrollTop);
-      sessionStorage.setItem('prevPrevContentScrollTop', sessionStorage.prevContentScrollTop);
-    }
-    if (sessionStorage.locationPathname) {
-      sessionStorage.setItem('prevPathname', sessionStorage.locationPathname);
-      sessionStorage.setItem('prevMenuScrollTop', sessionStorage.menuScrollTop);
-      sessionStorage.setItem('prevContentScrollTop', sessionStorage.contentScrollTop);
-    }
     if ($menu && sessionStorage.menuScrollTop) {
-		  $menu.scrollTop = sessionStorage.menuScrollTop;
+		$menu.scrollTop = sessionStorage.menuScrollTop;
     }
     // 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
     if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
       $content.scrollTop = sessionStorage.contentScrollTop;
-    } else if (sessionStorage.prevPrevPathname && sessionStorage.prevPrevPathname === window.location.pathname) {
-      if ($menu && sessionStorage.prevPrevMenuScrollTop) {
-        $menu.scrollTop = sessionStorage.prevPrevMenuScrollTop;
-      }
-      if ($content && sessionStorage.prevPrevContentScrollTop) {
-        $content.scrollTop = sessionStorage.prevPrevContentScrollTop;
-      }
     }
-    sessionStorage.setItem('locationPathname', window.location.pathname);
-    </script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../search_json.js"></script></body></html>
+    sessionStorage.setItem('locationPathname', window.location.pathname);</script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../search_json.js"></script></body></html>
