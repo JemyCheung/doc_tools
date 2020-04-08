@@ -1,4 +1,4 @@
-### 直播
+# 直播
 
 ## 推流sdk打包时，依赖库HappyDNS的bitcode报错
 打包时，rebuild from bitcode不要打钩

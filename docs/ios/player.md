@@ -1,3 +1,4 @@
+# 播放器
 ##  硬解切换前后台失败，pause 和resume，报错 Decode fail
 研发建议使用软解码：
 
