@@ -374,6 +374,24 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/ios/ios.html",
       "children": []
+    },
+    {
+      "title": "",
+      "content": "",
+      "url": "/ios/player.html",
+      "children": []
+    },
+    {
+      "title": "",
+      "content": "",
+      "url": "/ios/streaming.html",
+      "children": []
+    },
+    {
+      "title": "",
+      "content": "",
+      "url": "/ios/shortvideo.html",
+      "children": []
     }
   ]
 }
