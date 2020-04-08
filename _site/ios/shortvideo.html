@@ -2,7 +2,233 @@
       <div class="icon">&#xf0fd;</div>
       <input type="text" class="input js-input" placeholder="搜索" />
       <div class="m-search-result js-search-result"></div>
-    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item "><a class="href" href="../android/android.html">Android</a></li><li class="item active"><a class="href" href="ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"></div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="streaming.html" class="href"><span class="ui-font-ydoc"></span>直播</a></div></div></div></div></div><div></div><script>
+    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item "><a class="href" href="../android/android.html">Android</a></li><li class="item active"><a class="href" href="ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><h2 id="v1.13.1之前版本上传报错">v1.13.1之前版本上传报错</h2>
+<p><img src="http://cdn.iorange.vip/s_1.jpg" alt></p>
+<p>Qiniu的sdk在7.2.4版本，移除了QNConfigutation的dns属性，导致短视频上传crash，报找不到这个方法。如果是1.13.1及之前的版本，建议客户指定下QiniuSDK的版本号为7.2.3。</p>
+<h2 id="短视频转码报错：domain=com.plshortvideokit.errordomain-code=-4002-&quot;transcoding-movie-was-failed.&quot;-userinfo={nslocalizedrecoverysuggestion=you-will-be-check-the-movie-duration.,-nslocalizeddescription=transcoding-movie-was-failed.,-nslocalizedfailurereason=read-current-movie-was-failed.-error-domain=avfoundationerrordomain-code=-11841-&quot;null&quot;}">短视频转码报错：Domain=com.PLShortVideoKit.ErrorDomain Code=-4002 &quot;Transcoding movie was failed.&quot; UserInfo={NSLocalizedRecoverySuggestion=You will be check the movie duration., NSLocalizedDescription=Transcoding movie was failed., NSLocalizedFailureReason=Read current movie was failed. Error Domain=AVFoundationErrorDomain Code=-11841 &quot;(null)&quot;}</h2>
+<p>具体案例：
+demo中的转码页底部的截取时长，原视频时长15，设置maxduration=9，在选取9秒以后的数据转码失败</p>
+<p>失败信息：
+Domain=com.PLShortVideoKit.ErrorDomain Code=-4002 &quot;Transcoding movie was failed.&quot; UserInfo={NSLocalizedRecoverySuggestion=You will be check the movie duration., NSLocalizedDescription=Transcoding movie was failed., NSLocalizedFailureReason=Read current movie was failed. Error Domain=AVFoundationErrorDomain Code=-11841 &quot;(null)&quot;}</p>
+<p>修改：
+<img src="http://cdn.iorange.vip/s_2.jpg" alt><br>
+<img src="http://cdn.iorange.vip/s_3.png" alt></p>
+<p>原因：修改了demo的参数，比如一个10秒的视频，想截取其中的5秒，但却把startTime设置成了7秒的时间点，7+5&gt;10，导致编码器异常。</p>
+<h2 id="self.shortvideoeditor.loopenabled-=-no;-播放完成后调用-[self.shortvideoeditor-startediting];-不能重新播放">self.shortVideoEditor.loopEnabled = NO;  播放完成后调用 [self.shortVideoEditor startEditing];   不能重新播放</h2>
+<p>原因：开始和结束 editing 这个动作，不涉及到seek操作，这个方法的设定就是这样  不应该包含seek操作，不然方法的意思和实际作用不符合，以上现象符合预期
+解决：再次播放前seek到视频开始时间</p>
+<h2 id="短视频sdk不支持自定义倍速的原因">短视频SDK不支持自定义倍速的原因</h2>
+<p>目前只支持现有的几种速率，如果设置其他速率，会有声音播放问题，因此 iOS 不支持和 Android 一样的速率设置。</p>
+<h2 id="sdk录制---系统相机---返回sdk录制，出现预览不全">SDK录制 - 系统相机 - 返回SDK录制，出现预览不全</h2>
+<p>场景：录制界面，预览正常 - 调用系统相机 - 返回录制界面 - 预览缩小
+调用系统相机：</p>
+<pre><code>    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
+    [imagePicker setSourceType:sourceType];
+    imagePicker.allowsEditing = allowsEditing;
+    [imagePicker setDelegate:self];
+    [xxx presentViewController:imagePicker animated:YES completion:nil];
+</code></pre>
+<h2 id="现象：">现象：</h2>
+<p><img src="http://cdn.iorange.vip/s_4.png" alt>
+原因：
+原因是预览进入相机，采集的size发生了改变，再退回预览界面sdk没有将size重置为videoconfiguration里的配置，所以出现了预览变小的情况
+现在需要在在使用姿势想进行规避，在退出系统相机后回到拍摄界面时，调用一下 reloadvideoConfiguration</p>
+<h2 id="sdk录制的视频有绿边">SDK录制的视频有绿边</h2>
+<p>原因： 短视频用的iOS 硬编码，设置的宽高如果不是偶数，会被系统API自动校正到偶数，这个时候，录制得到的视频和实际设置的视频像素不符合，出现绿边。
+处理方法：建议用户在设置宽高参数的时候保证是偶数。宽高设置为 16 的倍数自然最好，至少保证宽高为偶数。</p>
+<h2 id="sdk提供的滤镜资源">SDK提供的滤镜资源</h2>
+<p>研发回复：这个其实四个版本对 bundle 中的滤镜是都支持的，只不过对外是根据版本，只提供 10种/ 33种 给到用户去用。
+截图的就是我们定义的 10 种滤镜，33 种就是 bundle 里面的全部滤镜。
+所以在官方Demo中的33种滤镜资源，四个版本的SDK都可以使用，没有限制。
+<img src="http://cdn.iorange.vip/s_5.png" alt></p>
+<h2 id="录制时mixaudio播放背景音乐失败">录制时mixAudio播放背景音乐失败</h2>
+<p>可能是音频的编码格式是HE-AAC，mixAudio的播放器用的是AVAudioPlayer，该播放器不支持HE-AAC的音频，将播放器替换为AVPlayer，采集会打断AVPlayer的播放
+目前需要客户自己转码音频编码格式
+he-aac :<a href="http://fengwo.gttead.cn/data/upload/bgm_file/5b28a90e507e6.mp3" target="_blank">http://fengwo.gttead.cn/data/upload/bgm_file/5b28a90e507e6.mp3</a>
+<img src="http://cdn.iorange.vip/s_6.png" alt>
+ps：shorteditor 继承editorplayer，继承avplayer</p>
+<h2 id="短视频sdk添加mv的问题">短视频SDK添加MV的问题</h2>
+<ul>
+<li>设置MV 为 10 秒，视频时长15秒，实际播放超过 10 秒，在11秒左右</li>
+</ul>
+<p>正常；应该是存在，这个主要是内部播放的时候，根据 MV 来播放，但是计算 MV 的时间戳做不到很精确，导致可能时间播放的视频比设置的 MV 的时长大，但是最终导出视频的时候，是不会存在这个问题的，</p>
+<ul>
+<li>设置 MV 之后，滑动进度条，播放画面不刷新  <a href="https://oigovwije.qnssl.com/ScreenRecording_12-10-05-13.MP4" target="_blank">https://oigovwije.qnssl.com/ScreenRecording_12-10-05-13.MP4</a></li>
+</ul>
+<p>这个是预期的，加了 MV 之后，不支持滑动精度条刷新</p>
+<ul>
+<li>
+<p>如果设置 MV 的时候，mv 的 timerange 设置的是 CMTimeRangeMake(CMTimeMake(2000, 1000), CMTimeMake(8000, 1000)), 既就是 MV 时长设置的是 8 秒，loop 为 NO 的情况下，播放的时长是应该是 8 秒和视频时长中小的那一个，假如用户的视频是 20 秒，那个实际上只能播放 8 秒，并且用户在seek 的时候，可以seek 的范围应该是 0 ~ 8 秒，</p>
+</li>
+<li>
+<p>原视频执行seek，mv不会随原视频一起执行seek操作</p>
+</li>
+</ul>
+<p>当 MV 的时长比视频时长短的时候，是否让 MV 重复播放到视频的时长，一种是不重复，一种是重复，</p>
+<ul>
+<li>如果选择的是不重复播放 MV，那么就会出现只要 MV 播放一遍完了，视频播放会强制重头开始播放</li>
+<li>如果选择的是重复播放 MV, 这种情况下视频的最后 0.2 秒左右的时候播放不出来，这是音频 MV 播放领先视频播放 0.2 秒左右，导致 MV 比视频提前 0.2 秒结束。</li>
+</ul>
+<p>现在的编辑逻辑是 MV 或者视频谁先播放完，整个播放就重头开始</p>
+<h2 id="plsavassetexportsession-输出的视频小于预期码率">PLSAVAssetExportSession 输出的视频小于预期码率</h2>
+<p>设置的码率值是一个推荐值，不是一个确定值，在生成视频的时候，视频场景变化大小也影响视频的码率，如果视频场景变化不大，生成的视频码率本来就偏小，加上用户设置的码率太大，导致生成视频的最终码率和设置码率差距较大。</p>
+<h2 id="plsfilepreset对应实际分辨率">PLSFilePreset对应实际分辨率</h2>
+<p>LowQuality：CGSizeMake(240, 320)</p>
+<p>MediumQuality: CGSizeMake(544, 960)</p>
+<p>HighestQuality：self.videoSize;</p>
+<p>640x480：CGSizeMake(480, 640)</p>
+<p>Preset960x540: CGSizeMake(544, 960)</p>
+<p>Preset1280x720: CGSizeMake(720, 1280)</p>
+<p>Preset1920x1080]: CGSizeMake(1088, 1920)</p>
+<h2 id="plshortvideotranscoder处理规则">PLShortVideoTranscoder处理规则</h2>
+<p>PLShortVideoTranscoder 的处理规则是的outputFilePreset 大于原始视，默认使用原始视频的videosize和码率。</p>
+<h2 id="plsrangemediatools-对视频videosize的处理">PLSRangeMediaTools 对视频videosize的处理</h2>
+<p>1.10及之前版本：不支持设置导出的videosize，以第一段PLSRangeMedia的videosize为基准，按照fill模式进行切割</p>
+<p>1.11及之后版本：支持设置导出的videosize，如果每段视频的size和设置导出的 size不一样、按照fill模式剪切到导出的size</p>
+<h2 id="关于录制的双声道">关于录制的双声道</h2>
+<p>audioConfiguration.numberOfChannels = 2;
+该设置不针对采集
+采集默认是44100hz 单声道，如果设置上面的参数后在麦克风原始数据的回调里自己保存音频，该资源是单声道
+再有在保存为MP4 的时候在回加上channel的设置</p>
+<h2 id="合成音频码率和采样率不匹配，导出失败">合成音频码率和采样率不匹配，导出失败</h2>
+<p><img src="http://cdn.iorange.vip/s_7.png" alt></p>
+<p>用户的视频采样率是 22050，我们的导出使用的音频码率默认是 128k，码率和采样率不匹配，就会出现失败的情况
+AVAsset+PLSExtendProperty 的属性获取视频的声道数和采样率</p>
+<h2 id="editor播放avplayeritem的问题">Editor播放AVPlayerItem的问题</h2>
+<p><img src="http://cdn.iorange.vip/s_7.png" alt></p>
+<p>问题：通过这个方法组合的AVPlayerItem包含几个分辨率不同的视频，AVPlayer可以都按照自适应来正常播放，PLShortVideoEditor只能按照第一个分辨率播吗？后边不同分辨率的就适配不了了</p>
+<p>答： 因为 PLShortVideoEditor 的 initWithPlayerItem 初始化，AVPlayerItem 的 videoComposition 会失效，所以目前 initWithPlayerItem 只支持 视频宽高一样并且具有相同 transform 的视频组合播放</p>
+<h2 id="基于tusdk的短视频demo">基于TUSDK的短视频demo</h2>
+<p>七牛短视频官网地址下：<a href="https://github.com/pili-engineering/PLShortVideoKit" target="_blank">https://github.com/pili-engineering/PLShortVideoKit</a>
+Example_TuTu 文件夹
+<img src="http://cdn.iorange.vip/s_9.png" alt></p>
+<h2 id="文字大小和plsvideopreviewsizekey关系">文字大小和PLSVideoPreviewSizeKey关系</h2>
+<p>AVAssetExportSsssion 比如设置的输出视频像素 outputVideoSize 是 1080x1920，如果不旋转或者旋转 180 度，那么最终导出的视频宽高还是 1080x1920，这个时候添加贴纸，就会使用 1080x1920 这个作为 PLSVideoOutputSizeKey 的角色来计算贴纸位置，</p>
+<p>即就是：</p>
+<pre><code>```
+float verticalRadio = 1920 / 750;
+float horizontalRadio = 1080 /375;
+
+float radio = 1;
+if(verticalRadio &gt; 1 &amp;&amp; horizontalRadio &gt; 1) {
+radio = verticalRadio &gt; horizontalRadio ? horizontalRadio : verticalRadio;
+} else {
+radio = verticalRadio &lt; horizontalRadio ? verticalRadio : horizontalRadio;
+}
+```
+</code></pre>
+<p>最终贴纸在视频中的位置就是 CGRect ={100 _ radio，50_radio，200_radio，200_radio}
+如果视频旋转90度或者270度，那么 SDK内部会将用户设置的输出视频尺寸修改为
+AVAssetExportSsssion 比如设置的输出视频像素 outputVideoSize 是 1080x1920，如果不旋转或者旋转 180 度，那么最终导出的视频宽高还是 1080x1920，这个时候添加贴纸，就会使用 1080x1920 这个作为 PLSVideoOutputSizeKey 的角色来计算贴纸位置，
+即就是：</p>
+<pre><code>    float verticalRadio = 1920 / 750;
+    float horizontalRadio = 1080 /375;
+
+    float radio = 1;
+    if(verticalRadio &#x3E; 1 &#x26;&#x26; horizontalRadio &#x3E; 1) {
+    radio = verticalRadio &#x3E; horizontalRadio ? horizontalRadio : verticalRadio;
+    } else {
+    radio = verticalRadio &#x3C; horizontalRadio ? verticalRadio : horizontalRadio;
+    }
+</code></pre>
+<p>最终贴纸在视频中的位置就是 CGRect ={100 _ radio，50_radio，200_radio，200_radio}
+如果视频旋转90度或者270度，那么 SDK内部会将用户设置的输出视频尺寸修改为 1920x1080，计算贴纸的时候就是下面的计算方法：</p>
+<pre><code>    float verticalRadio = 1080 / 750;
+    float horizontalRadio = 1920 /375;
+
+    float radio = 1;
+    if(verticalRadio &#x3E; 1 &#x26;&#x26; horizontalRadio &#x3E; 1) {
+    radio = verticalRadio &#x3E; horizontalRadio ? horizontalRadio : verticalRadio;
+    } else {
+    radio = verticalRadio &#x3C; horizontalRadio ? verticalRadio : horizontalRadio;
+    }
+</code></pre>
+<p>最终贴纸在视频中的位置就是 CGRect ={100 _ radio，50_radio，200_radio，200_radio}
+在设置贴纸的时候 PLSVideoOutputSizeKey 并没有被使用到，用户可以不设置这个值
+如果用户没有设置 outputVideoSize， SDK 内部会自己去设置 outputVideoSize
+如果用户旋转了视频，导出的视频分别率还是和不旋转设置相同的值，PLSAVAssetExportSession 会根据
+@property (assign, nonatomic) PLSPreviewOrientation videoLayerOrientation
+来计算最终导出视频的分辨率，
+但是 PLSAVAssetExportSession 内部并不会去根据 videoLayerOrientation 修改贴纸的值，
+PLSAVAssetExportSession 内部会先根据 videoLayerOrientation 计算导出视频的值，然后把这个最终视频导出分辨率的值来计算贴纸的位置，设置贴纸的position，size 不会做旋转，用户设置的什么就是什么，计算方式就是刚刚发给你的，</p>
+<h2 id="时光倒流特效耗时问题">时光倒流特效耗时问题</h2>
+<p>问题：PLSReverserEffect 时光特效处理一个12秒的视频，耗时4秒</p>
+<p>答：正常</p>
+<p>原因：时光倒流有编解码的操作</p>
+<p>其他无耗时感的处理：往decoder送数据的时间索引反过来，例如抖音</p>
+<p>有些短视频的时光倒流是不需要花时间导出的，只是改变一下 AVPlayer 播放器的播放参数。
+我之前看了一下，犹豫了很久，决定不去修改这个，主要是修改这个，整个短视频编辑，导出的很多东西否需要修改，涉及的地方太多，贸然修改这个影响面太大了。这个自己知道就好，没有必要和客户说。
+我们现在的时光倒流特效是对视频进行了重新解码再编码，算是物理操作，所以耗时比较长。</p>
+<h2 id="代码检查设备是否支持双声道">代码检查设备是否支持双声道</h2>
+<p>[AVAudioSession sharedInstance].maximumInputNumberOfChannels</p>
+<h2 id="关于水印的问题">关于水印的问题</h2>
+<ul>
+<li>
+<p>图片格式要求png</p>
+</li>
+<li>
+<p>不能放在 imagesasset 中</p>
+</li>
+<li>
+<p>不能有@这样的特殊字符</p>
+</li>
+</ul>
+<h2 id="plsavassetexportsession输出时-背景音乐参数解释">PLSAVAssetExportSession输出时 背景音乐参数解释</h2>
+<p><img src="http://cdn.iorange.vip/s_10.png" alt></p>
+<p>第一组是音频文件本身的开始时间和时长，就是对音频文件做选取的
+第二组是这个音频文件添加在视频中的位置，</p>
+<p>比如一个音频文件 30s，我们要选取这个音频文件的第 10 ~ 15s，那么 startTime 是10，duration 是 15
+如果要把这选取出来的 5秒的音频加载视频的第 20~25 秒，那么 locationStartTime 是 20，locationDuration 是 5</p>
+<h2 id="是否支持h265视频的编辑输出">是否支持H265视频的编辑输出</h2>
+<p>如果手机本身支持 h265 硬解的，则支持对 h265 的文件进行一系列的操作，比如转码，编辑等。目前只有iOS11以上的部分高端机型支持h265的硬件解码，我们处理完成后统一转成h264。</p>
+<h2 id="sdk报错：pili-shortvideo-authorization-plshortvideo-sdk-authorization-status-error-auth-failed!">SDK报错：Pili-ShortVideo-Authorization PLShortVideo SDK authorization status error: auth failed!</h2>
+<p>SDK鉴权失败，让客户提供包名，在<a href="http://svauth.qnsdk.com/%E6%9F%A5%E4%B8%8B%E6%98%AF%E5%90%A6%E5%B7%B2%E6%8E%88%E6%9D%83%E3%80%82" target="_blank">http://svauth.qnsdk.com/查下是否已授权。</a></p>
+<h2 id="sdk报错：pili-shortvideo-authorization-plshortvideo-sdk-version-authorization-error-900.-if-you-want-to-use-more-sdk-features,-please-visit-&quot;httpswww.qiniu.comproductsplsv&quot;!">SDK报错：Pili-ShortVideo-Authorization PLShortVideo SDK version authorization error 900. If you want to use more SDK features, please visit &quot;<a href="https://www.qiniu.com/products/plsv%22!" target="_blank">https://www.qiniu.com/products/plsv&quot;!</a></h2>
+<p>SDK鉴权检测到使用了比已授权版本更高级的功能，SDK各版本功能列表参考<a href="https://developer.qiniu.com/pili/sdk/3731/short-video%EF%BC%8C%E5%AE%A2%E6%88%B7%E5%8C%85%E5%90%8D%E7%9A%84%E6%8E%88%E6%9D%83%E7%89%88%E6%9C%AC%E5%9C%A8http://svauth.qnsdk.com/%E6%9F%A5%E8%AF%A2%E3%80%82" target="_blank">https://developer.qiniu.com/pili/sdk/3731/short-video，客户包名的授权版本在http://svauth.qnsdk.com/查询。</a></p>
+<h2 id="短视频sdk日志搜集">短视频SDK日志搜集</h2>
+<p>代码如下：</p>
+<pre><code>    // pili &#x77ED;&#x89C6;&#x9891;&#x65E5;&#x5FD7;&#x7CFB;&#x7EDF;
+    [PLShortVideoKitEnv initEnv];
+    [PLShortVideoKitEnv enableFileLogging];
+    [PLShortVideoKitEnv setLogLevel:PLShortVideoLogLevelDebug];
+</code></pre>
+<p>loglevel可以根据实际情况来指定，级别越高日志越详细，日志目录在沙盒/Library/Caches/Pili-ShortVideo/Logs：
+<img src="http://cdn.iorange.vip/s_11.png" alt></p>
+<h2 id="短视频sdk是否支持同时编辑多个视频，同时转码多个视频输出报错怎么处理">短视频SDK是否支持同时编辑多个视频，同时转码多个视频输出报错怎么处理</h2>
+<p>短视频SDK建议每次处理一个视频，多个视频同时编辑输出可能会触发底层硬件编码器的报错。</p>
+<h2 id="plsvideomixrecorder初始化耗时久">PLSVideoMixRecorder初始化耗时久</h2>
+<p>查看是否开启了回声消除 acousticEchoCancellationEnable，关掉可以减少耗时
+因为回音消除这个需要硬件来做，硬件上处理需要花时间，没有办法避免</p>
+<h2 id="短视频sdk3.0.0版本-xcode10编译不过">短视频SDK3.0.0版本 xcode10编译不过</h2>
+<p><img src="http://cdn.iorange.vip/s_12.png" alt>
+原因：3.0.0版本SDK使用的是xcode11打包的，可能会影响之前版本xcode的正常编译使用。
+解决方案：提供灰度包，目前有专业版本的灰度包，如果客户是其他版本的，比如基础版进阶版，可以联系SDK同学</p>
+<p>专业版：</p>
+<p>真机：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKitv3.0.0-for-xcode10-Release-pro-iphoneos.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKitv3.0.0-for-xcode10-Release-pro-iphoneos.zip</a></p>
+<p>模拟器：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKitv3.0.0-for-xcode10-Release-pro-universal.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKitv3.0.0-for-xcode10-Release-pro-universal.zip</a></p>
+<p>基础版：</p>
+<p>真机：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-iphoneos-basic_for_xcode10.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-iphoneos-basic_for_xcode10.zip</a></p>
+<p>模拟器：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-universal-basic_for_xcode10.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-universal-basic_for_xcode10.zip</a></p>
+<h2 id="plsavassetexportsession合成崩溃">PLSAVAssetExportSession合成崩溃</h2>
+<p><img src="http://cdn.iorange.vip/s_13.png" alt>
+PLSAVAssetExportSession 的 outputSettings 中，movie的PLSDurationKey是0导致的</p>
+<h2 id="短视频sdkv3.0.0版本支持模拟器编译版本灰度包">短视频SDKv3.0.0版本支持模拟器编译版本灰度包</h2>
+<p>3.0.0线上版本只有专业版包含模拟器x86_64架构，其他版本需要提供灰度包</p>
+<p>基础版：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-basic-universal.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-basic-universal.zip</a></p>
+<p>精简版：<a href="http://pr8hjn86c.bkt.clouddn.com/PLShortVideoKit-v3.0.0-short-universal.framework.zip" target="_blank">http://pr8hjn86c.bkt.clouddn.com/PLShortVideoKit-v3.0.0-short-universal.framework.zip</a></p>
+<p>灰度包需要客户手动拖入工程，需要注意的是短视频SDK依赖Qiniu上传SDK，手动拖入Qiniu或通过cocoapods引入Qiniu，否则运行会报错；另外如果要使用SDK自带的美颜功能，需要手动引入libMuseProcessor.a，Demo工程文件夹里可以找到这个包。</p>
+<h2 id="是否支持声音内录">是否支持声音内录</h2>
+<p>不建议</p>
+<p>短视频录屏的代码在PLScreenRecorderManager中，是外部封装的replykit，只采集了麦克风的声音，没有采集app</p>
+<p>ps：虽然代码可以更改，ios13上replykit采集的麦克风和APP的声音数据中，声道数不一样，写在一起可能会有问题</p>
+<h2 id="3.1.0偶现qos数组crash">3.1.0偶现qos数组crash</h2>
+<p><img src="http://cdn.iorange.vip/s_14.png" alt>
+qos数组的问题，重载后正常，可以建议客户卸载重装，然后重新运行安装，不影响后续的正常使用</p>
+<h2 id="v3.1.1版本demo合拍功能滤镜设置无效">v3.1.1版本demo合拍功能滤镜设置无效</h2>
+<p>3.1.1版本PLSVideoMixRecorder采集的音视频buffer回调不走，目前已提供灰度包，其他版本可以问研发打包，预计下个版本修复：</p>
+<p>进阶版：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-3.1.1.1-advance.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-3.1.1.1-advance.zip</a></p>
+<p>专业版：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-3.1.1.1-pro.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-3.1.1.1-pro.zip</a></p>
+</div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="streaming.html" class="href"><span class="ui-font-ydoc"></span>直播</a></div></div></div></div></div><div></div><script>
     var $content = document.getElementById('js-content');
     var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
     var $menu = document.getElementById('js-menu');

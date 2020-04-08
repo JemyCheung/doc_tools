@@ -2,7 +2,71 @@
       <div class="icon">&#xf0fd;</div>
       <input type="text" class="input js-input" placeholder="搜索" />
       <div class="m-search-result js-search-result"></div>
-    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item "><a class="href" href="../android/android.html">Android</a></li><li class="item active"><a class="href" href="ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"></div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="player.html" class="href"><span class="ui-font-ydoc"></span>播放器</a></div><div class="m-paging-next m-paging-item"><a href="shortvideo.html" class="href">短视频<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div></div><script>
+    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item "><a class="href" href="../android/android.html">Android</a></li><li class="item active"><a class="href" href="ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><h3 id="直播">直播</h3>
+<h2 id="推流sdk打包时，依赖库happydns的bitcode报错">推流sdk打包时，依赖库HappyDNS的bitcode报错</h2>
+<p>打包时，rebuild from bitcode不要打钩</p>
+<h2 id="推流sdk添加水印没有效果">推流sdk添加水印没有效果</h2>
+<p>检查下客户使用的水印图片资源是否带scale比例
+scale比例：图片文件名后带有@2x或@3x</p>
+<h2 id="关于横屏推流">关于横屏推流</h2>
+<ul>
+<li>首先保证播放段画面不旋转，也就是手机本身旋转后，摄像头也要旋转</li>
+<li>再调整预览画面并且修改推流参数
+步骤：</li>
+<li>手机旋转   设置摄像头旋转方向 PLVideoCaptureConfiguration videoOrientation</li>
+<li>如果是VC旋转 调整 preview的size ； 或者直接旋转preview</li>
+<li>修改 PLVideoStreamingConfiguration 的videosize为横屏 （播放段看到的size）
+ps：如果是推流的过程中修改
+旋转方向用PLMediaStreamingSession的类调用position
+新建PLVideoStreamingConfiguration，并调用reload</li>
+</ul>
+<h2 id="录屏推流横竖屏设置">录屏推流横竖屏设置</h2>
+<p>测试replaykit 推流，初始化进入的时候
+UIInterfaceOrientation 是LandscapeRight/LandscapeLeft，sampleBufferSize 宽大于高，是横屏的效果
+UIInterfaceOrientation 是Portrait，sampleBufferSize 高大于宽，是竖屏效果
+所以判断应该是UIInterfaceOrientation 影响到了replaykit输出的宽高，客户提供的腾讯的 homeOrientation 应该也是这么调整的就问一下
+不过这个客户也可以自己外部实现</p>
+<h2 id="视频帧旋转及优化偶现黑屏----他趣">视频帧旋转及优化偶现黑屏 -- 他趣</h2>
+<p>提给供他趣的灰度包，包含帧旋转
+http://sdk-release.qnsdk.com/PLMediaStreamingKit-v2.3.4-beta-20180831.zip
+该sdk在 plus 录制第五人格时候会出现图片中效果
+必现步骤：打开 用户中心，再关闭 用户中心 ，就会出现 绿屏问题
+原因：分辨率发生变化。最开始 sourceRect 中 size 是 1080，1920，当关闭用户中心时，srcFrameVideoSize 变为了 750，1334，此时需要调整 sourceRect 的值。
+sourceRect ：从这个区域取数据。
+destRect ：把 sourceRect 区域内的数据放到这个位置
+sourceRect 大于实际了的videosize，绿色相当于填充
+配置：配置.pages</p>
+<h2 id="视频帧为0，日志显示failed-to-setup-vtcompressionsession">视频帧为0，日志显示failed to setup VTCompressionSession</h2>
+<p>对象没有正常的释放导致编码器设置失败，由客户调用 destroy 接口，只 dealloc 没有 destroy 还是可能导致编码器没有销毁掉</p>
+<h2 id="推流sdk-v2.3.4-v2.3.5版本推流没声音，使用demo正常">推流SDK v2.3.4 v2.3.5版本推流没声音，使用Demo正常</h2>
+<ul>
+<li>首先看下客户推上来的流音频帧率是否为0，如果不为0，可能是调用了静音。</li>
+<li>如果音频帧为0，可以让客户按Demo的配置来设置推流参数，一般音频的配置用defaultConfiguration就可以。</li>
+<li>v2.3.4版本音频采集的模块有个位置会有数组越界，但内部做了个保护不会影响正常使用，但如果客户的代码里有类似Swizzle的防止数组越界的功能（发现数组越界即丢弃），就会导致永远采集不到buffer，可以让客户检查下App的代码。
+建议去掉Swizzle防越界的模块，或者处理时绕过SDK。
+也可以提供2.3.5的灰度版本，已修复这个问题：
+真机：https://sdk-release.qnsdk.com/PLMediaStreamingKit-v2.3.5.1-iphones.zip
+真机+模拟器：https://sdk-release.qnsdk.com/PLMediaStreamingKit-v2.3.5.1-universal.zip</li>
+</ul>
+<h2 id="replykit-在ios12-ios13-的bug">replykit  在ios12  ios13 的bug</h2>
+<p>replykit在12 和13 的操作系统上有不同程度的问题，主要会导致录屏后没有声音的问题，应该是replykit的bug，需要外部处理下
+ios12：
+询问获取权限的弹窗不是每次都出现，即使每次都调用
+[RPScreenRecorder sharedRecorder].microphoneEnabled = YES;
+会导致音频的回调不执行，没有声音
+ios13：
+同时注册mic 和 app，音频回调正常，发布的音频帧正常，但是播放没有声音，控制台持续打印 [AAC Encoder] reload source ASDB, sample rate 44100hz
+单独使用mic 或 app 音频帧率和播放都正常
+mic 和 APP中打印的音频的samplebuffer的asbd参数不一样，应该是这个原因导致（声道数不同）</p>
+<p>ps：弹窗正常
+为了保证在每个系统上都能正常使用，可以使用外部采集   如：QRDMicrophoneSource增加音频samplebuffer回调</p>
+<h2 id="使用replaykit-broadcast录屏偶现推流sdk-crash：">使用replaykit broadcast录屏偶现推流sdk crash：</h2>
+<p>image-2019-05-28-16-38-45-663.png
+原因是replaykit回调了无效的buffer，sdk内部没有对buffer是否有效做判断，导致memmove抛出异常，可以引导客户在replaykit的回调里加上以下代码过滤掉无效buffer：
+if (!CMSampleBufferDataIsReady(sampleBuffer)) return;</p>
+<h2 id="推流sdk录屏场景demo（实时更新）">推流sdk录屏场景Demo（实时更新）</h2>
+<p>http://peioy2m4j.bkt.clouddn.com/PLMediaStreamingKitFunctionDemo.zip</p>
+</div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="player.html" class="href"><span class="ui-font-ydoc"></span>播放器</a></div><div class="m-paging-next m-paging-item"><a href="shortvideo.html" class="href">短视频<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div></div><script>
     var $content = document.getElementById('js-content');
     var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
     var $menu = document.getElementById('js-menu');
