@@ -42,16 +42,16 @@ mProfile.setPreferredVideoEncodingSize(360,640)
 				.setAVProfile(avProfile);
 
 // 高清
-StreamingProfile.AudioProfileaProfile=newStreamingProfile.AudioProfile(44100,48*1024);
-StreamingProfile.VideoProfilevProfile=newStreamingProfile.VideoProfile(20,1.2*1024*1024,20,StreamingProfile.H264Profile.BASELINE);
-StreamingProfile.AVProfileavProfile=newStreamingProfile.AVProfile(vProfile,aProfile);
+StreamingProfile.AudioProfile aProfile=new StreamingProfile.AudioProfile(44100,48*1024);
+StreamingProfile.VideoProfile vProfile=newStreamingProfile.VideoProfile(20,1.2*1024*1024,20,StreamingProfile.H264Profile.BASELINE);
+StreamingProfile.AVProfilea vProfile=new StreamingProfile.AVProfile(vProfile,aProfile);
 mProfile.setPreferredVideoEncodingSize(540,960)
 				.setAVProfile(avProfile)
 
 // 超清
-StreamingProfile.AudioProfileaProfile=newStreamingProfile.AudioProfile(44100,48*1024);
-StreamingProfile.VideoProfilevProfile=newStreamingProfile.VideoProfile(20,1.8*1024*1024,20,StreamingProfile.H264Profile.HIGH);
-StreamingProfile.AVProfileavProfile=newStreamingProfile.AVProfile(vProfile,aProfile);
+StreamingProfile.AudioProfile aProfile=new StreamingProfile.AudioProfile(44100,48*1024);
+StreamingProfile.VideoProfile vProfile=newStreamingProfile.VideoProfile(20,1.8*1024*1024,20,StreamingProfile.H264Profile.HIGH);
+StreamingProfile.AVProfileavProfile=new StreamingProfile.AVProfile(vProfile,aProfile);
 mProfile.setPreferredVideoEncodingSize(720,1280)
 				.setAVProfile(avProfile)
 ```
