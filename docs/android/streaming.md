@@ -43,7 +43,7 @@ mProfile.setPreferredVideoEncodingSize(360,640)
 
 // 高清
 StreamingProfile.AudioProfile aProfile=new StreamingProfile.AudioProfile(44100,48*1024);
-StreamingProfile.VideoProfile vProfile=newStreamingProfile.VideoProfile(20,1200*1024,20,StreamingProfile.H264Profile.BASELINE);
+StreamingProfile.VideoProfile vProfile=new StreamingProfile.VideoProfile(20,1200*1024,20,StreamingProfile.H264Profile.BASELINE);
 StreamingProfile.AVProfilea vProfile=new StreamingProfile.AVProfile(vProfile,aProfile);
 mProfile.setPreferredVideoEncodingSize(540,960)
 				.setAVProfile(avProfile)
