@@ -17,12 +17,12 @@ mMediaStreamingManager.startStreaming();
 ### 处理办法
 这里涉及到几个名词 ：数据传输，编码，ffmpeg，Android sdk，推流地址。只有Android sdk和推流地址是七牛提供的，其他过程都需要自己做
 
-## 基本概念  
+## 码率、分辨率、帧率关系  
 关于 分辨率、帧率、码率 等编码基本概念可以参考以下文档
 [H.264 一般规范](http://www.lighterra.com/papers/videoencodingh264/)
 [分辨率、帧率、码率的相互关系](https://developer.qiniu.com/pili/kb/3636/streaming-VideoProfile)
 
-## 一组建议值  
+## 推流模糊的一组建议值  
 关于分档的【标清、高清、超清】，目前并不是通用标准，多数视频站点使用各自的标准，一般只是作为区分的不同视频质量的标识。
 
 | 画质 | 码率     | 分辨率   | 帧率 |
@@ -31,7 +31,7 @@ mMediaStreamingManager.startStreaming();
 | 高清 | 1.2 mbps | 540x960  | 20   |
 | 超清 | 1.8 mbps | 720x1280 | 20   |
 
-## 对应在 sdk 中的配置  
+- 对应在 sdk 中的配置  
 
 ```java
 // 标清
