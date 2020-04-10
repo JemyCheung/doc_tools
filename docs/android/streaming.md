@@ -1,5 +1,22 @@
 [安卓推流SDK](https://github.com/pili-engineering/PLDroidMediaStreaming)
 # 直播
+
+## 更换推流url
+```
+mMediaStreamingManager.stopStreaming();
+mProfile.setPublishUrl(url);
+mMediaStreamingManager.setStreamingProfile(mProfile);
+mMediaStreamingManager.startStreaming();
+```
+
+## IPCamera推流
+### 三种方式    
+- 摄像头本身是一个小系统，Linux或者Android系统，那需要采集数据并通过ffmpeg/Android sdk进行推流，且ip摄像头能联网    
+- 摄像头自带推流软件，输入推流地址就可以推流  
+- 摄像头只是单纯的摄像头，可以通过局域网wifi传输数据。那需要自行将数据传输到Linux系统或者Android系统，然后用ffmpeg/android sdk进行编码并推流  
+### 处理办法
+这里涉及到几个名词 ：数据传输，编码，ffmpeg，Android sdk，推流地址。只有Android sdk和推流地址是七牛提供的，其他过程都需要自己做
+
 ## 基本概念  
 关于 分辨率、帧率、码率 等编码基本概念可以参考以下文档
 [H.264 一般规范](http://www.lighterra.com/papers/videoencodingh264/)
@@ -18,11 +35,11 @@
 
 ```java
 // 标清
-StreamingProfile.AudioProfileaProfile=newStreamingProfile.AudioProfile(44100,48*1024);
-StreamingProfile.VideoProfilevProfile=newStreamingProfile.VideoProfile(15,800*1024,15,StreamingProfile.H264Profile.BASELINE);
-StreamingProfile.AVProfileavProfile=newStreamingProfile.AVProfile(vProfile,aProfile);
+StreamingProfile.AudioProfile aProfile=new StreamingProfile.AudioProfile(44100,48*1024);
+StreamingProfile.VideoProfile vProfile=new StreamingProfile.VideoProfile(15,800*1024,15,StreamingProfile.H264Profile.BASELINE);
+StreamingProfile.AVProfilea vProfile=new StreamingProfile.AVProfile(vProfile,aProfile);
 mProfile.setPreferredVideoEncodingSize(360,640)
-				.setAVProfile(avProfile)
+				.setAVProfile(avProfile);
 
 // 高清
 StreamingProfile.AudioProfileaProfile=newStreamingProfile.AudioProfile(44100,48*1024);
