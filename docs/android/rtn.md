@@ -1,16 +1,154 @@
 # 实时音视频
 
-## track模式  
+- 实时音视频支持以track模式进行音视频数据交互，比如两个人连麦，user1和user2可以分别publish自己的audio和video，
+那么user1可以只订阅user2的音频或者视频，或者音视频都订阅。相反user2也可以订阅user1。
+
+- webrtc是连麦，直播sdk仅仅只是直播，区分一下，没有强行关联。但是连麦时，可以进行直播(在客户端调用API，我们服务端处理)  
+
+在连麦时，比如user1和user2，都publish了自己的音视频。在我们流媒体服务端是有四路tracks，分别是user1的
+video1和audio1，user2的video2和audio2。这个时候在客户端(Android/iOS/web)可以调用合流，发指令到我们服务端，指定合成
+tracks[video1,audio1,video2,audio2]中任意track，合流后会转推到直播云产品进行直播
+
+## 场景划分
+新接入或者产品切换到实时音视频(连麦/webrtc)时有很多场景，下面是针对各个场景的一个方案
+
+### 原有直播sdk转rtn
+原直播jar包：pldroid-media-streaming-xxx.jar。只有这个jar包都是单纯的只有直播功能。无法实现连麦。
+需要切换产品
+
+### 单纯实现连麦
+直接跑起来demo就可以，参考demo接入  
+[实时音视频demo](https://github.com/pili-engineering/QNRTC-Android)
+
+### 连麦rtn实现单人直播
+首先需要开通直播云服务，并在服务端已经配置好合流转推的hub，推荐转推的流名用魔法变量${roomName}
+- Android demo，只实现了连麦
+- 先把demo跑起来，在onLocalPublished会回调本地发布的音视频track，进行合流自己的音视频
+- 调用合流API
+```
+	List<QNMergeTrackOption> options = null;
+	//默认，合流自己发布的数据
+    @Override
+    public void onLocalPublished(List<QNTrackInfo> trackInfoList) {
+        updateRemoteLogText("onLocalPublished");
+        mEngine.enableStatistics();
+        Log.e("zw","onLocalPublished");
+         options = new ArrayList<>();
+        for(QNTrackInfo trackInfo:trackInfoList){
+            if(trackInfo.getTrackKind() == QNTrackKind.VIDEO){ //添加视频track
+                QNMergeTrackOption video = new QNMergeTrackOption();
+                //指定视频在整个合流画面中的坐标点，及视频的宽高
+                video.setX(0);
+                video.setY(0);
+                video.setWidth(480);
+                video.setHeight(640);
+                video.setTrackId(trackInfo.getTrackId());
+                options.add(video);
+            }
+            if(trackInfo.getTrackKind() == QNTrackKind.AUDIO){ //添加音频track
+                QNMergeTrackOption audio = new QNMergeTrackOption();
+                audio.setTrackId(trackInfo.getTrackId());
+                options.add(audio);
+            }
+        }
+        mEngine.setMergeStreamLayouts(options,null); //进行合流
+	}
+
+```
+
+### rtn连麦互动并进行直播
+- 两人连麦转推一路流给观众
+在上面合流自己音视频代码的基础上，需要另一个人加入房间，并在onRemotePublished回调时合流远端用户的音视频track
+```
+	// 在远端用户加入房间后，合流远端用户的音视频
+    @Override
+    public void onRemotePublished(String remoteUserId, List<QNTrackInfo> trackInfoList) {
+        for(QNTrackInfo trackInfo:trackInfoList){
+            if(trackInfo.getTrackKind() == QNTrackKind.VIDEO){
+                QNMergeTrackOption video = new QNMergeTrackOption();
+				//指定视频在整个合流画面中的坐标点，及视频的宽高
+                video.setX(480);
+                video.setY(0);
+                video.setWidth(480);
+                video.setHeight(640);
+                video.setTrackId(trackInfo.getTrackId());
+                options.add(video);
+            }
+            if(trackInfo.getTrackKind() == QNTrackKind.AUDIO){
+                QNMergeTrackOption audio = new QNMergeTrackOption();
+                audio.setTrackId(trackInfo.getTrackId());
+                options.add(audio);
+            }
+        }
+        mEngine.setMergeStreamLayouts(options,null);
+    }
+```
+
+- 两主播连麦转推两路流给各自的观众
+这个只是对APIsetMergeStreamLayouts(options,null)的另一种调用方式，当第二个参数设置为null时是默认合流转推到
+对应房间名的直播流上，可以构建任务转推到指定url。当不为null时就是指定合流任务
+
+```
+	QNMergeJob mjob = null;
+    List<QNMergeTrackOption> list = null;
+    List<QNMergeTrackOption> options = null;
+    @Override
+    public void onLocalPublished(List<QNTrackInfo> trackInfoList) {
+        updateRemoteLogText("onLocalPublished");
+        mEngine.enableStatistics();
+        mjob = new QNMergeJob();//创建合流任务
+		//指定视频在整个合流画面中的坐标点，及视频的宽高
+        mjob.setWidth(240);
+        mjob.setHeight(360);
+        mjob.setBitrate(400*1024);
+        mjob.setFps(15);//指定fps
+		//指定转推的地址
+        mjob.setPublishUrl("rtmp://publish.rrsd.qiniuts.com/jemy/zwtest");
+		//创建jobId
+        mjob.setMergeJobId("qiniutest");
+		//创建音视频track
+        QNMergeTrackOption video = null;
+        QNMergeTrackOption audio = null;
+        for (QNTrackInfo track : trackInfoList) {
+            if(track.getTrackKind().equals(QNTrackKind.VIDEO)){
+                video = new QNMergeTrackOption();
+                video.setX(0);
+                video.setY(0);
+                video.setWidth(240);
+                video.setHeight(360);
+                video.setTrackId(track.getTrackId());
+            }else{
+                audio = new QNMergeTrackOption();
+                audio.setTrackId(track.getTrackId());
+            }
+        }
+		//设置合流任务 此API创建后会回调onCreateMergeJobSuccess
+        mEngine.createMergeJob(mjob);
+        list = new ArrayList<QNMergeTrackOption>();
+        if(video!=null&&audio!=null){
+            list.add(video);
+            list.add(audio);
+        }
+    }
+	//当回调合流任务创建成功后开始合流
+	@Override
+   public void onCreateMergeJobSuccess(String mergeJobId) {
+	   mEngine.setMergeStreamLayouts(list,mergeJobId);
+   }
+```
+
+
+## 合流部分  
 每个音频、视频为单独的track。  
 
-### 连麦场景
+### 连麦
 
 - 房间内每个人之间进行音/视频交流  
 	需要相互发布自己的音/视频track，并且订阅其他人的音/视频track
 - 教育场景，老师发布音/视频，学生发布音频  
 	老师端采集音/视频并publish，学生端发布音频track，然后每个人都需要订阅房间内所有track(音频、视频)
 
-### 直播场景/合流
+### 直播/合流
 
    接入步骤：[服务端合流](https://doc.qnsdk.com/rtn/docs/merge_stream#2_0)  
 
