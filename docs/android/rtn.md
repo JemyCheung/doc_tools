@@ -4,7 +4,7 @@
 - 实时音视频支持以track模式进行音视频数据交互，比如两个人连麦，user1和user2可以分别publish自己的audio和video，
 那么user1可以只订阅user2的音频或者视频，或者音视频都订阅。相反user2也可以订阅user1。
 
-- webrtc是连麦，直播sdk仅仅只是直播，区分一下，没有强行关联。但是连麦时，可以进行直播(在客户端调用API，我们服务端处理)  
+- 直播sdk只能做直播，实时音视频的sdk可以做连麦和直播。但是两者没有强行关联。在连麦时，在客户端仅调用合流API，我们服务端可以转推到直播云  
 
 在连麦时，比如user1和user2，都publish了自己的音视频。在我们流媒体服务端是有四路tracks，分别是user1的
 video1和audio1，user2的video2和audio2。这个时候在客户端(Android/iOS/web)可以调用合流，发指令到我们服务端，指定合成
