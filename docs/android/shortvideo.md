@@ -12,6 +12,11 @@ videoEncodeSetting.setEncodingSizeLevel(PLVideoEncodeSetting.VIDEO_ENCODING_SIZE
 public PLVideoEncodeSetting setPreferedEncodingSize(int width, int height);
 
 ```
+## 开始拍摄
+1.参考demo，oncreate初始化
+2.onResume时调用mShortVideoRecorder.resume();开始预览
+3.回调onReady之后，才能调用beginSection开始拍摄  
+
 ## 拍摄视频不清晰/模糊
 A:通常是视频编码的参数没有调整到位。首先通过PLCameraSetting设置采集的分辨率和码率，再通过PLVideoEncodeSetting设置视频的编码分辨率和码率。确保cameraSetting的值>=encodeSetting值。对应设置可以参考[码率与分辨率关系](http://www.lighterra.com/papers/videoencodingh264/)
 

@@ -160,3 +160,10 @@ tracks[video1,audio1,video2,audio2]中任意track，合流后会转推到直播�
 - 客户端调用合流api会带参数发指令到我们服务端，配置客户端用户A画面（0,0,480,480),B用户(0,480,480,480)
 
    ![](http://cdn.iorange.vip/mergestream.png)
+
+
+## 房间创建销毁时机
+	房间只是虚拟概念，并不真实存在。只是joinroom的token中携带的一个参数，我们会根据这个参数将某一群相同roomName的人划分到一个连麦房间下  
+	房间的创建时机是当有人进入房间后，销毁时机是所有人都离开房间的时候
+## 房间创建销毁的回调，房间人数
+    客户端会有参与连麦的人进入房间和离开房间的回调。服务端没有回调，可以主动去查询 https://doc.qnsdk.com/rtn/docs/server_overview#2_2_0

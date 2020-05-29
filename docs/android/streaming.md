@@ -56,6 +56,9 @@ mProfile.setPreferredVideoEncodingSize(720,1280)
 				.setAVProfile(avProfile)
 ```
 
+## 进入直播间动态设置推流地址  
+1.进入activity就需要按照demo那样oncreate初始化，调sdk的resume，然后开始推流。这个是硬性条件  
+2.您可以在主播点击“开始直播”前，推流到一个测试地址，或者推图片流提示类似于“主播正在准备中”之类的。等主播点击开始直播，在切换正式地址或者由图片推流切换到摄像头推流  
 
 ## 推流SDK关键日志  
 ###  提供 Android 的日志  
