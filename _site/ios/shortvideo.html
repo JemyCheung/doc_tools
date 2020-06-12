@@ -3,7 +3,7 @@
       <input type="text" class="input js-input" placeholder="搜索" />
       <div class="m-search-result js-search-result"></div>
     </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item "><a class="href" href="../android/android.html">Android</a></li><li class="item active"><a class="href" href="ios.html">iOS</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><h2 id="v1.13.1之前版本上传报错">v1.13.1之前版本上传报错</h2>
-<p><img src="http://cdn.iorange.vip/s_1.jpg" alt></p>
+<p><img src="http://as.ijemy.com/s_1.jpg" alt></p>
 <p>Qiniu的sdk在7.2.4版本，移除了QNConfigutation的dns属性，导致短视频上传crash，报找不到这个方法。如果是1.13.1及之前的版本，建议客户指定下QiniuSDK的版本号为7.2.3。</p>
 <h2 id="短视频转码报错：domain=com.plshortvideokit.errordomain-code=-4002-&quot;transcoding-movie-was-failed.&quot;-userinfo={nslocalizedrecoverysuggestion=you-will-be-check-the-movie-duration.,-nslocalizeddescription=transcoding-movie-was-failed.,-nslocalizedfailurereason=read-current-movie-was-failed.-error-domain=avfoundationerrordomain-code=-11841-&quot;null&quot;}">短视频转码报错：Domain=com.PLShortVideoKit.ErrorDomain Code=-4002 &quot;Transcoding movie was failed.&quot; UserInfo={NSLocalizedRecoverySuggestion=You will be check the movie duration., NSLocalizedDescription=Transcoding movie was failed., NSLocalizedFailureReason=Read current movie was failed. Error Domain=AVFoundationErrorDomain Code=-11841 &quot;(null)&quot;}</h2>
 <p>具体案例：
@@ -11,8 +11,8 @@ demo中的转码页底部的截取时长，原视频时长15，设置maxduration
 <p>失败信息：
 Domain=com.PLShortVideoKit.ErrorDomain Code=-4002 &quot;Transcoding movie was failed.&quot; UserInfo={NSLocalizedRecoverySuggestion=You will be check the movie duration., NSLocalizedDescription=Transcoding movie was failed., NSLocalizedFailureReason=Read current movie was failed. Error Domain=AVFoundationErrorDomain Code=-11841 &quot;(null)&quot;}</p>
 <p>修改：
-<img src="http://cdn.iorange.vip/s_2.jpg" alt><br>
-<img src="http://cdn.iorange.vip/s_3.png" alt></p>
+<img src="http://as.ijemy.com/s_2.jpg" alt><br>
+<img src="http://as.ijemy.com/s_3.png" alt></p>
 <p>原因：修改了demo的参数，比如一个10秒的视频，想截取其中的5秒，但却把startTime设置成了7秒的时间点，7+5&gt;10，导致编码器异常。</p>
 <h2 id="self.shortvideoeditor.loopenabled-=-no;-播放完成后调用-[self.shortvideoeditor-startediting];-不能重新播放">self.shortVideoEditor.loopEnabled = NO;  播放完成后调用 [self.shortVideoEditor startEditing];   不能重新播放</h2>
 <p>原因：开始和结束 editing 这个动作，不涉及到seek操作，这个方法的设定就是这样  不应该包含seek操作，不然方法的意思和实际作用不符合，以上现象符合预期
@@ -29,7 +29,7 @@ Domain=com.PLShortVideoKit.ErrorDomain Code=-4002 &quot;Transcoding movie was fa
     [xxx presentViewController:imagePicker animated:YES completion:nil];
 </code></pre>
 <h2 id="现象：">现象：</h2>
-<p><img src="http://cdn.iorange.vip/s_4.png" alt>
+<p><img src="http://as.ijemy.com/s_4.png" alt>
 原因：
 原因是预览进入相机，采集的size发生了改变，再退回预览界面sdk没有将size重置为videoconfiguration里的配置，所以出现了预览变小的情况
 现在需要在在使用姿势想进行规避，在退出系统相机后回到拍摄界面时，调用一下 reloadvideoConfiguration</p>
@@ -40,12 +40,12 @@ Domain=com.PLShortVideoKit.ErrorDomain Code=-4002 &quot;Transcoding movie was fa
 <p>研发回复：这个其实四个版本对 bundle 中的滤镜是都支持的，只不过对外是根据版本，只提供 10种/ 33种 给到用户去用。
 截图的就是我们定义的 10 种滤镜，33 种就是 bundle 里面的全部滤镜。
 所以在官方Demo中的33种滤镜资源，四个版本的SDK都可以使用，没有限制。
-<img src="http://cdn.iorange.vip/s_5.png" alt></p>
+<img src="http://as.ijemy.com/s_5.png" alt></p>
 <h2 id="录制时mixaudio播放背景音乐失败">录制时mixAudio播放背景音乐失败</h2>
 <p>可能是音频的编码格式是HE-AAC，mixAudio的播放器用的是AVAudioPlayer，该播放器不支持HE-AAC的音频，将播放器替换为AVPlayer，采集会打断AVPlayer的播放
 目前需要客户自己转码音频编码格式
 he-aac :<a href="http://fengwo.gttead.cn/data/upload/bgm_file/5b28a90e507e6.mp3" target="_blank">http://fengwo.gttead.cn/data/upload/bgm_file/5b28a90e507e6.mp3</a>
-<img src="http://cdn.iorange.vip/s_6.png" alt>
+<img src="http://as.ijemy.com/s_6.png" alt>
 ps：shorteditor 继承editorplayer，继承avplayer</p>
 <h2 id="短视频sdk添加mv的问题">短视频SDK添加MV的问题</h2>
 <ul>
@@ -91,17 +91,17 @@ ps：shorteditor 继承editorplayer，继承avplayer</p>
 采集默认是44100hz 单声道，如果设置上面的参数后在麦克风原始数据的回调里自己保存音频，该资源是单声道
 再有在保存为MP4 的时候在回加上channel的设置</p>
 <h2 id="合成音频码率和采样率不匹配，导出失败">合成音频码率和采样率不匹配，导出失败</h2>
-<p><img src="http://cdn.iorange.vip/s_7.png" alt></p>
+<p><img src="http://as.ijemy.com/s_7.png" alt></p>
 <p>用户的视频采样率是 22050，我们的导出使用的音频码率默认是 128k，码率和采样率不匹配，就会出现失败的情况
 AVAsset+PLSExtendProperty 的属性获取视频的声道数和采样率</p>
 <h2 id="editor播放avplayeritem的问题">Editor播放AVPlayerItem的问题</h2>
-<p><img src="http://cdn.iorange.vip/s_7.png" alt></p>
+<p><img src="http://as.ijemy.com/s_7.png" alt></p>
 <p>问题：通过这个方法组合的AVPlayerItem包含几个分辨率不同的视频，AVPlayer可以都按照自适应来正常播放，PLShortVideoEditor只能按照第一个分辨率播吗？后边不同分辨率的就适配不了了</p>
 <p>答： 因为 PLShortVideoEditor 的 initWithPlayerItem 初始化，AVPlayerItem 的 videoComposition 会失效，所以目前 initWithPlayerItem 只支持 视频宽高一样并且具有相同 transform 的视频组合播放</p>
 <h2 id="基于tusdk的短视频demo">基于TUSDK的短视频demo</h2>
 <p>七牛短视频官网地址下：<a href="https://github.com/pili-engineering/PLShortVideoKit" target="_blank">https://github.com/pili-engineering/PLShortVideoKit</a>
 Example_TuTu 文件夹
-<img src="http://cdn.iorange.vip/s_9.png" alt></p>
+<img src="http://as.ijemy.com/s_9.png" alt></p>
 <h2 id="文字大小和plsvideopreviewsizekey关系">文字大小和PLSVideoPreviewSizeKey关系</h2>
 <p>AVAssetExportSsssion 比如设置的输出视频像素 outputVideoSize 是 1080x1920，如果不旋转或者旋转 180 度，那么最终导出的视频宽高还是 1080x1920，这个时候添加贴纸，就会使用 1080x1920 这个作为 PLSVideoOutputSizeKey 的角色来计算贴纸位置，</p>
 <p>即就是：</p>
@@ -174,7 +174,7 @@ PLSAVAssetExportSession 内部会先根据 videoLayerOrientation 计算导出视
 </li>
 </ul>
 <h2 id="plsavassetexportsession输出时-背景音乐参数解释">PLSAVAssetExportSession输出时 背景音乐参数解释</h2>
-<p><img src="http://cdn.iorange.vip/s_10.png" alt></p>
+<p><img src="http://as.ijemy.com/s_10.png" alt></p>
 <p>第一组是音频文件本身的开始时间和时长，就是对音频文件做选取的
 第二组是这个音频文件添加在视频中的位置，</p>
 <p>比如一个音频文件 30s，我们要选取这个音频文件的第 10 ~ 15s，那么 startTime 是10，duration 是 15
@@ -193,14 +193,14 @@ PLSAVAssetExportSession 内部会先根据 videoLayerOrientation 计算导出视
     [PLShortVideoKitEnv setLogLevel:PLShortVideoLogLevelDebug];
 </code></pre>
 <p>loglevel可以根据实际情况来指定，级别越高日志越详细，日志目录在沙盒/Library/Caches/Pili-ShortVideo/Logs：
-<img src="http://cdn.iorange.vip/s_11.png" alt></p>
+<img src="http://as.ijemy.com/s_11.png" alt></p>
 <h2 id="短视频sdk是否支持同时编辑多个视频，同时转码多个视频输出报错怎么处理">短视频SDK是否支持同时编辑多个视频，同时转码多个视频输出报错怎么处理</h2>
 <p>短视频SDK建议每次处理一个视频，多个视频同时编辑输出可能会触发底层硬件编码器的报错。</p>
 <h2 id="plsvideomixrecorder初始化耗时久">PLSVideoMixRecorder初始化耗时久</h2>
 <p>查看是否开启了回声消除 acousticEchoCancellationEnable，关掉可以减少耗时
 因为回音消除这个需要硬件来做，硬件上处理需要花时间，没有办法避免</p>
 <h2 id="短视频sdk3.0.0版本-xcode10编译不过">短视频SDK3.0.0版本 xcode10编译不过</h2>
-<p><img src="http://cdn.iorange.vip/s_12.png" alt>
+<p><img src="http://as.ijemy.com/s_12.png" alt>
 原因：3.0.0版本SDK使用的是xcode11打包的，可能会影响之前版本xcode的正常编译使用。
 解决方案：提供灰度包，目前有专业版本的灰度包，如果客户是其他版本的，比如基础版进阶版，可以联系SDK同学</p>
 <p>专业版：</p>
@@ -210,7 +210,7 @@ PLSAVAssetExportSession 内部会先根据 videoLayerOrientation 计算导出视
 <p>真机：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-iphoneos-basic_for_xcode10.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-iphoneos-basic_for_xcode10.zip</a></p>
 <p>模拟器：<a href="http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-universal-basic_for_xcode10.zip" target="_blank">http://peioy2m4j.bkt.clouddn.com/PLShortVideoKit-v3.0.0-universal-basic_for_xcode10.zip</a></p>
 <h2 id="plsavassetexportsession合成崩溃">PLSAVAssetExportSession合成崩溃</h2>
-<p><img src="http://cdn.iorange.vip/s_13.png" alt>
+<p><img src="http://as.ijemy.com/s_13.png" alt>
 PLSAVAssetExportSession 的 outputSettings 中，movie的PLSDurationKey是0导致的</p>
 <h2 id="短视频sdkv3.0.0版本支持模拟器编译版本灰度包">短视频SDKv3.0.0版本支持模拟器编译版本灰度包</h2>
 <p>3.0.0线上版本只有专业版包含模拟器x86_64架构，其他版本需要提供灰度包</p>
@@ -222,7 +222,7 @@ PLSAVAssetExportSession 的 outputSettings 中，movie的PLSDurationKey是0导�
 <p>短视频录屏的代码在PLScreenRecorderManager中，是外部封装的replykit，只采集了麦克风的声音，没有采集app</p>
 <p>ps：虽然代码可以更改，ios13上replykit采集的麦克风和APP的声音数据中，声道数不一样，写在一起可能会有问题</p>
 <h2 id="3.1.0偶现qos数组crash">3.1.0偶现qos数组crash</h2>
-<p><img src="http://cdn.iorange.vip/s_14.png" alt>
+<p><img src="http://as.ijemy.com/s_14.png" alt>
 qos数组的问题，重载后正常，可以建议客户卸载重装，然后重新运行安装，不影响后续的正常使用</p>
 <h2 id="v3.1.1版本demo合拍功能滤镜设置无效">v3.1.1版本demo合拍功能滤镜设置无效</h2>
 <p>3.1.1版本PLSVideoMixRecorder采集的音视频buffer回调不走，目前已提供灰度包，其他版本可以问研发打包，预计下个版本修复：</p>

@@ -11,7 +11,7 @@
 ## 画面被裁减、拉伸、留有黑边、显示不全  
 
 这个是预期的，1:1的视频是没法放到1:2的显示器上让它完全填充显示器还不变形的  
-![](http://cdn.iorange.vip/065a5c567bb06caed1e0847704bba91c.jpg)  
+![](http://as.ijemy.com/065a5c567bb06caed1e0847704bba91c.jpg)  
 
 ## rtmp播放延时大  
 
